@@ -1,0 +1,68 @@
+<div class="card card-custom gutter-b">
+  <div class="card-header">
+    <div class="card-title">
+      <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon-users mx-2"></i> Lista Usuarios</h3>
+    </div>
+    <div class="card-toolbar">
+      <a
+        type="button"
+        class="btn btn-primary"
+        ><i class="icon-2x text-white flaticon-user-add"></i> Nuevo Usuario</a
+      >
+    </div>
+  </div>
+  <div class="card-body">
+    <!-- begin: Filtration form -->
+    <div class="form form-label-right">
+      <div class="form-group row">
+        <div class="col-lg-4">
+          <div class="row" [formGroup]="filterGroup">
+            <div class="col-lg-6">
+              <select
+                class="form-control"
+                name="status"
+                placeholder="Filtrar por Estado"
+                formControlName="status"
+              >
+                <option value="">Todos</option>
+                <option value="1">Activo</option>
+                <option value="0">Desactivo</option></select
+              ><small class="form-text text-muted"
+                ><b>Filtrar</b> por Estado</small
+              >
+            </div>
+            <div class="col-lg-6">
+              <select
+                class="form-control"
+                placeholder="Filtro por Rol"
+                name="condition"
+                formControlName="condition"
+              >
+                <option value="">Todos</option>
+                <option  *ngFor="let rol of roles" [value]="rol.id">{{ rol.name }}</option>
+              </select>
+                <small class="form-text text-muted"
+                ><b>Filtro</b> por Rol</small
+              >
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3" [formGroup]="searchGroup">
+          <input
+            type="text"
+            class="form-control"
+            name="searchText"
+            placeholder="Buscar"
+            value=""
+            formControlName="searchTerm"
+          /><small class="form-text text-muted"
+            ><b>Buscar</b> por correo y nombre</small
+          >
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="isLoading$ | async">
+        <span class="spinner spinner-primary ml-5"></span>
+    </ng-container>
+  </div>
+</div>
