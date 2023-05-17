@@ -7,8 +7,8 @@
 <div class="modal-content">
     <div class="modal-header">
         <div class="modal-title h4" id="example-modal-sizes-title-lg">
-            <i class="icon-2x text-dark-50 fas fa-user-times mx-2"></i> Eliminar Usuario: {{ user_selected.name + ' ' +
-            user_selected.surname }}
+            <i class="icon-2x text-dark-50 fas fa-user-times mx-2"></i> Eliminar Imagen: {{ imagen_.file_name
+            }}
         </div>
     </div>
     <div class="overlay overlay-block cursor-default modal-body">
@@ -18,8 +18,7 @@
             </div>
         </ng-container>
 
-        <span>¿Está seguro que desea eliminar al usuario:<b> {{ user_selected.name + ' ' +
-                user_selected.surname }}</b>?</span>
+        <span>¿Está seguro que desea eliminar está imagen:<b> {{ imagen_.file_name }}</b>?</span>
 
     </div>
 

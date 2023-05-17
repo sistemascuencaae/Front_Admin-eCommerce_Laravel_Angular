@@ -49,8 +49,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.initForm();
     // get return url from route parameters or default to '/'
     this.returnUrl =
-        this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
-    }
+      this.route.snapshot.queryParams['returnUrl'.toString()] || '/';
+  }
 
   // convenience getter for easy access to form fields
   get f() {
@@ -91,21 +91,21 @@ export class LoginComponent implements OnInit, OnDestroy {
     //       this.hasError = true;
     //     }
     //   });
-    this.authService.login(this.f.email.value, this.f.password.value).subscribe((resp:any)=>{
+    this.authService.login(this.f.email.value, this.f.password.value).subscribe((resp: any) => {
       console.log(resp)
       // this.router.navigate(['/dashboard']);
       if (resp) {
-          // this.router.navigate([this.  returnUrl]);
-          document.location.reload();
+        // this.router.navigate([this.  returnUrl]);
+        document.location.reload();
       } else {
-          this.hasError = true;
+        this.hasError = true;
       }
-    },(error:any)=>{
+    }, (error: any) => {
       console.log(error)
-      if(error.error.error=="Unauthorized"){
+      if (error.error.error == "Unauthorized") {
         // this.toastr.error('Upps!!', 'Las Credenciales Ingresadas No Existen');
         this.hasError = true;
-      }else{
+      } else {
         // this.toastr.error('Upps!!', 'Sucedio Algo Inesperado.Intentelo nuevamente');
         this.hasError = true;
       }
