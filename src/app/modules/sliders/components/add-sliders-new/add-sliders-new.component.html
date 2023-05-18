@@ -1,0 +1,62 @@
+<ng-container *ngIf="isLoading">
+    <div class="progress progress-modal">
+        <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
+            style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
+</ng-container>
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <i class="icon-2x text-dark-50 flaticon-interface-9 mx-2"></i> Crear Slider
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <form action="#" class="form form-label-right">
+
+            <div class="form-group row">
+                <div class="col-12">
+                    <label class="form-label" for=""> Nombre de Botón: </label>
+                    <input type="text" class="form-control form-control-solid form-control-lg" name="name"
+                        placeholder="Nombre" autocomplete="off" [(ngModel)]="name">
+                </div>
+
+                <div class="col 12">
+                    <label class="form-label" for=""> Imagen del Slider: </label>
+
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="customFile"
+                            accept=".jpeg, .bmp, .jpg, .png, .gif, .webp" (change)="processFile($event)">
+                        <label class="custom-file-label" for="customFile">Choose file</label>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label class="form-label" for=""> Url del Botón: </label>
+                    <input type="text" class="form-control form-control-solid form-control-lg" name="url"
+                        placeholder="url" autocomplete="off" [(ngModel)]="url">
+                </div>
+
+                <div class="col 12" *ngIf="imagen_previzualiza">
+                    <img [src]="imagen_previzualiza" class="w-100" alt="">
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Cancelar
+        </button>
+        <button type="submit" class="btn btn-success btn-elevate mr-2" (click)="save()">
+            Guardar
+        </button>
+    </div>
+</div>
