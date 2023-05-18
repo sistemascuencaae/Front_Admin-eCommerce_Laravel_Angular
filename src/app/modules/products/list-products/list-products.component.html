@@ -40,6 +40,7 @@
                         <th>Categoria</th>
                         <th>Precio Soles</th>
                         <th>Precio USD</th>
+                        <th>Status</th>
                         <th class="pr-0 text-right" style="min-width: 150px">Acción</th>
                     </tr>
                 </thead>
@@ -58,7 +59,16 @@
                         <td>{{ product.price_soles }} PEN.</td>
                         <td>{{ product.price_usd }} USD.</td>
                         <td>
-                            <a [routerLink]="['/products/edit-product', product.id]" class="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
+                            <span class="label label-lg label-inline label-light-warning"
+                                *ngIf="product.state == 1">Demo</span>
+                            <span class="label label-lg label-inline label-light-success"
+                                *ngIf="product.state == 2">Público</span>
+                            <span class="label label-lg label-inline label-light-danger"
+                                *ngIf="product.state == 3">Bloqueado</span>
+                        </td>
+                        <td>
+                            <a [routerLink]="['/products/edit-product', product.id]"
+                                class="btn btn-icon btn-light btn-hover-primary btn-sm mx-1"
                                 ngbTooltip="Editar Producto" ngbTooltipClass="kt-tooltip">
                                 <span class="svg-icon svg-icon-md svg-icon-primary">
                                     <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Write.svg-->
@@ -79,8 +89,8 @@
                                 </span>
                             </a>
 
-                            <a class="btn btn-icon btn-light btn-hover-primary btn-sm"
-                                ngbTooltip="Eliminar Categoria" ngbTooltipClass="kt-tooltip">
+                            <a class="btn btn-icon btn-light btn-hover-primary btn-sm" ngbTooltip="Eliminar Categoria"
+                                ngbTooltipClass="kt-tooltip">
                                 <span class="svg-icon svg-icon-md svg-icon-danger">
                                     <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
                                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

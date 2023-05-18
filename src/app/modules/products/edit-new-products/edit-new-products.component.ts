@@ -60,6 +60,11 @@ export class EditNewProductsComponent implements OnInit {
 
   product_inventaries: any = [];
 
+  checked_inventario: any = 1;
+  stock_individual: any = 0;
+
+  state: any = 1;
+
   constructor(
     public toaster: Toaster,
     public _productsService: ProductsService,
@@ -112,6 +117,9 @@ export class EditNewProductsComponent implements OnInit {
       this.imagen_previzualiza = this.URL_BACKEND + this.product.imagen;
       this.images_files = this.product.images;
       this.product_inventaries = this.product.sizes;
+      this.stock_individual = this.product.stock;
+      this.checked_inventario = this.product.checked_inventario;
+      this.state = this.product.state;
     });
   }
 
@@ -204,10 +212,14 @@ export class EditNewProductsComponent implements OnInit {
     formData.append("description", this.description);
     formData.append("imagen_file", this.imagen_file);
     formData.append("tags", this.tags);
+    formData.append("stock", this.stock_individual ? this.stock_individual : 0); //Si el stock es nulo ponme un cero
+    formData.append("type_inventario", this.checked_inventario);
+    formData.append("state", this.state);
 
     this._productsService.updateProduct(this.product_id, formData).subscribe((resp: any) => {
       console.log(resp);
-      // this.toaster.open(NoticyAlertComponent, { text: `success-'Producto actualizado correctamente.'` });
+      this.router.navigate(['/products/list-product']);
+      this.toaster.open(NoticyAlertComponent, { text: `success-'Producto actualizado correctamente.'` });
     });
   }
 
@@ -250,6 +262,20 @@ export class EditNewProductsComponent implements OnInit {
       if (resp.message == 403) {
         this.toaster.open(NoticyAlertComponent, { text: `danger-'${resp.text_message}'` });
         return;
+      } else {
+        this.toaster.open(NoticyAlertComponent, { text: `success-'Se guardo correctamente la configuración.'` });
+
+        this.product_color_id = null;
+        this.product_size_id = null;
+        this.new_nombre = null;
+        this.stock = null;
+
+        let INDEX = this.product_inventaries.findIndex(item => item.id == resp.product_size_color.id);
+        if (INDEX != -1) {
+          this.product_inventaries[INDEX] = resp.product_size_color;
+        } else {
+          this.product_inventaries.push(resp.product_size_color);
+        }
       }
     })
   }
@@ -338,5 +364,9 @@ export class EditNewProductsComponent implements OnInit {
       }
 
     });
+  }
+
+  checkedInventario(value) {
+    this.checked_inventario = value;
   }
 }

@@ -139,6 +139,18 @@ export class AddNewProductComponent implements OnInit {
     this._productsService.createProduct(formData).subscribe((resp: any) => {
       console.log(resp);
       this.toaster.open(NoticyAlertComponent, { text: `success-'Producto creado correctamente.'` });
+
+      this.tittle = null;
+      this.sku = null;
+      this.categorie_id = null;
+      this.price_soles = null;
+      this.price_usd = null;
+      this.resumen = null;
+      this.description = null;
+      this.imagen_file = null;
+      this.imagen_previzualiza = null;
+      this.tags = [];
+      this.images_files = [];
     });
   }
 

@@ -41,16 +41,25 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-4">
+            <div class="col-2">
                 <label class="form-label" for=""> Precio en soles: </label>
                 <input type="text" class="form-control form-control-solid form-control-lg" name="price_soles"
                     placeholder="100" autocomplete="off" [(ngModel)]="price_soles">
             </div>
 
-            <div class="col-4">
+            <div class="col-2">
                 <label class="form-label" for=""> Precio en usd: </label>
                 <input type="text" class="form-control form-control-solid form-control-lg" name="price_usd"
                     placeholder="200" autocomplete="off" [(ngModel)]="price_usd">
+            </div>
+
+            <div class="col-4">
+                <label for="" class="form-label">Estado del Producto:</label>
+                <select name="state" id="" class="form-control form-control-solid form-control-lg" [(ngModel)]="state">
+                    <option value="1">Demo</option>
+                    <option value="2">Público</option>
+                    <option value="3">Bloqueado</option>
+                </select>
             </div>
 
             <div class="col-4">
@@ -162,16 +171,48 @@
         </div>
 
         <div class="form-group row">
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="">Inventario:</label>
+                    <div class="radio-inline">
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 1" value="1"
+                                (click)="checkedInventario(1)">
+                            <span></span>
+                            Inventario Individual
+                        </label>
+
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="checked_inventario == 2" value="2"
+                                (click)="checkedInventario(2)">
+                            <span></span>
+                            Inventario Múltiple
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="checked_inventario == 1">
+                <div class="row">
+                    <div class="col-2">
+                        <label class="form-label" for=""> Stock Individual: </label>
+                        <input type="number" class="form-control form-control-solid form-control-lg"
+                            name="stock_individual" placeholder="100" autocomplete="off" [(ngModel)]="stock_individual">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
             <div class="col-6">
                 <button type="submit" class="btn btn-success btn-elevate" (click)="updateProduct()">
-                    Guardar Producto
+                    Guardar Cambios del Producto
                 </button>
             </div>
         </div>
 
         <!-- Aqui empieza lo del stock -->
 
-        <div class="form-group row">
+        <div class="form-group row" *ngIf="checked_inventario == 2">
             <div class="col-3">
                 <label for="" class="form-label">Dimensiones:</label>
                 <select name="product_size_id" id="" (change)="changeDimension($event.target.value)"
