@@ -98,4 +98,63 @@ export class ProductsService {
       finalize(() => this.isLoadingSubject.next(false))
     );
   }
+
+  //INVENTARIO DE PRODUCTOS
+
+  addInventario(data: any) {
+    this.isLoadingSubject.next(true);
+
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authservice.token });
+    let URL = URL_SERVICIOS + "/products/inventario/add";
+
+    return this.http.post(URL, data, { headers: headers }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  updateInventario(inventario_id, data) {
+    this.isLoadingSubject.next(true);
+
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authservice.token });
+    let URL = URL_SERVICIOS + "/products/inventario/update_size/" + inventario_id;
+
+    return this.http.put(URL, data, { headers: headers }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  deleteInventario(inventario_id) {
+    this.isLoadingSubject.next(true);
+
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authservice.token });
+    let URL = URL_SERVICIOS + "/products/inventario/delete_size/" + inventario_id;
+
+    return this.http.delete(URL, { headers: headers }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  //SUB INVENTARIOS DE PRODUCTOS
+
+  updateSubInventario(sub_inventario_id, data) {
+    this.isLoadingSubject.next(true);
+
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authservice.token });
+    let URL = URL_SERVICIOS + "/products/inventario/update/" + sub_inventario_id;
+
+    return this.http.put(URL, data, { headers: headers }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
+
+  deleteSubInventario(sub_inventario_id) {
+    this.isLoadingSubject.next(true);
+
+    let headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authservice.token });
+    let URL = URL_SERVICIOS + "/products/inventario/delete/" + sub_inventario_id;
+
+    return this.http.delete(URL, { headers: headers }).pipe(
+      finalize(() => this.isLoadingSubject.next(false))
+    );
+  }
 }

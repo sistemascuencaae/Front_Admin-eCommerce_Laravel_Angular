@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <i class="icon-2x text-dark-50 fas fa-user-times mx-2"></i> Eliminar Sub-Dimensión: {{ sub_inventario.product_color.name
+            }}
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <span>¿Está seguro que desea eliminar está Sub-Dimensión:<b> {{ sub_inventario.product_color.name }}</b>?</span>
+
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-warning btn-elevate mr-2" (click)="modal.dismiss()">
+            Cancelar
+        </button>
+
+        <button type="submit" class="btn btn-danger btn-elevate mr-2" (click)="delete()">
+            Eliminar
+        </button>
+
+    </div>
+</div>

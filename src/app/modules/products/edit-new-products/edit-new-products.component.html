@@ -150,7 +150,8 @@
                                     <img [src]="URL_BACKEND+imagen_.imagen" alt="" width="60" height="60">
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-danger ml-5" (click)="removeImages(imagen_)">-</button>
+                                    <button class="btn btn-sm btn-danger ml-5"
+                                        (click)="removeImages(imagen_)">-</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -163,8 +164,99 @@
         <div class="form-group row">
             <div class="col-6">
                 <button type="submit" class="btn btn-success btn-elevate" (click)="updateProduct()">
-                    Guardar
+                    Guardar Producto
                 </button>
+            </div>
+        </div>
+
+        <!-- Aqui empieza lo del stock -->
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label for="" class="form-label">Dimensiones:</label>
+                <select name="product_size_id" id="" (change)="changeDimension($event.target.value)"
+                    class="form-control form-control-solid form-control-lg" [(ngModel)]="product_size_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let item of products_color_sizes">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
+
+                </select>
+
+            </div>
+
+            <div class="col-3" *ngIf="is_selected_dimension">
+                <label class="form-label" for=""> Nombre de la dimensión: </label>
+                <input type="text" class="form-control form-control-solid form-control-lg" name="new_nombre"
+                    placeholder="XL" autocomplete="off" [(ngModel)]="new_nombre">
+            </div>
+
+            <div class="col-3">
+                <label for="" class="form-label">Colores:</label>
+                <select name="product_color_id" id="" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="product_color_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let item of products_colors">
+                        <option [value]="item.id">{{ item.name }}</option>
+                    </ng-container>
+
+                </select>
+            </div>
+
+            <div class="col-2">
+                <label class="form-label" for=""> Stock: </label>
+                <input type="number" class="form-control form-control-solid form-control-lg" name="stock"
+                    placeholder="100" autocomplete="off" [(ngModel)]="stock">
+            </div>
+
+            <div class="col-1">
+                <button type="submit" class="btn btn-primary btn-elevate ml-2" (click)="addInventario()">+</button>
+            </div>
+
+            <div class="class col-12">
+                <div class="table-responsive" style="max-height: 300px;">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>Nombre</th>
+                                <th></th>
+                                <th>Cantidad Total</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let inventario of product_inventaries; let i=index">
+                                <tr style="background-color: rgba(160, 160, 160, 0.518);">
+                                    <td>{{ inventario.name }}</td>
+                                    <td></td>
+                                    <td>{{ inventario.total }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary ml-5"
+                                            (click)="openEdit(inventario)">Editar</button>
+
+                                        <button class="btn btn-sm btn-danger ml-5"
+                                            (click)="openDelete(inventario)">Eliminar</button>
+                                    </td>
+                                </tr>
+
+                                <tr *ngFor="let invent of inventario.variaciones; let i=index">
+                                    <td></td>
+                                    <td>{{ invent.product_color.name }}</td>
+                                    <td>{{ invent.stock }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary ml-5"
+                                            (click)="openEditSubDimension(invent, inventario)">Editar</button>
+
+                                        <button class="btn btn-sm btn-danger ml-5"
+                                            (click)="openDeleteSubDimension(invent, inventario)">Eliminar</button>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

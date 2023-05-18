@@ -6,6 +6,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { URL_BACKEND } from 'src/app/config/config';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DeleteImagenPComponent } from '../edit-new-product/delete-imagen-p/delete-imagen-p.component';
+import { DeleteItemInventarioComponent } from '../edit-new-product/inventario/delete-item-inventario/delete-item-inventario.component';
+import { EditItemInventarioComponent } from '../edit-new-product/inventario/edit-item-inventario/edit-item-inventario.component';
+import { DeleteSubItemInventarioComponent } from '../edit-new-product/inventario/delete-sub-item-inventario/delete-sub-item-inventario.component';
+import { EditSubItemInventarioComponent } from '../edit-new-product/inventario/edit-sub-item-inventario/edit-sub-item-inventario.component';
 
 @Component({
   selector: 'app-edit-new-products',
@@ -14,6 +18,7 @@ import { DeleteImagenPComponent } from '../edit-new-product/delete-imagen-p/dele
 })
 export class EditNewProductsComponent implements OnInit {
 
+  URL_BACKEND = URL_BACKEND;
   isLoading$;
 
   tittle: any = null;
@@ -42,7 +47,19 @@ export class EditNewProductsComponent implements OnInit {
     tittle: '',
   }
 
-  URL_BACKEND = URL_BACKEND;
+  // CAMPOS DE LA DIMENSION
+  product_size_id: any = null;
+  new_nombre: any = null;
+  product_color_id: any = null;
+  stock: any = null;
+
+  products_colors: any = [];
+  products_color_sizes: any = [];
+
+  is_selected_dimension: Boolean = true;
+
+  product_inventaries: any = [];
+
   constructor(
     public toaster: Toaster,
     public _productsService: ProductsService,
@@ -73,6 +90,8 @@ export class EditNewProductsComponent implements OnInit {
   listCategories() {
     this._productsService.getInfoCategorias().subscribe((resp: any) => {
       this.categories = resp.categories;
+      this.products_colors = resp.products_colors;
+      this.products_color_sizes = resp.products_color_sizes;
     });
   }
 
@@ -92,6 +111,7 @@ export class EditNewProductsComponent implements OnInit {
       this.tags = this.product.tags_a;
       this.imagen_previzualiza = this.URL_BACKEND + this.product.imagen;
       this.images_files = this.product.images;
+      this.product_inventaries = this.product.sizes;
     });
   }
 
@@ -188,6 +208,135 @@ export class EditNewProductsComponent implements OnInit {
     this._productsService.updateProduct(this.product_id, formData).subscribe((resp: any) => {
       console.log(resp);
       // this.toaster.open(NoticyAlertComponent, { text: `success-'Producto actualizado correctamente.'` });
+    });
+  }
+
+  changeDimension(value) {
+    if (value) {
+      this.is_selected_dimension = false;
+    } else {
+      this.is_selected_dimension = true;
+    }
+  }
+
+  addInventario() {
+    if (!this.product_size_id) {
+      if (!this.new_nombre) {
+        this.toaster.open(NoticyAlertComponent, { text: `warning-'Debe llenar el campo nombre dimensión.'` });
+        return;
+      }
+    }
+
+    if (!this.product_color_id) {
+      this.toaster.open(NoticyAlertComponent, { text: `warning-'Debe seleccionar un color.'` });
+      return;
+    }
+
+    if (!this.stock) {
+      this.toaster.open(NoticyAlertComponent, { text: `warning-'Debe llenar el campo stock.'` });
+      return;
+    }
+
+    let data = {
+      product_id: this.product_id,
+      product_color_id: this.product_color_id,
+      product_size_id: this.product_size_id,
+      new_nombre: this.new_nombre,
+      stock: this.stock,
+    }
+
+    this._productsService.addInventario(data).subscribe((resp: any) => {
+      console.log(resp);
+      if (resp.message == 403) {
+        this.toaster.open(NoticyAlertComponent, { text: `danger-'${resp.text_message}'` });
+        return;
+      }
+    })
+  }
+
+  openEdit(inventario) {
+    const modalRef = this.modelService.open(EditItemInventarioComponent, { centered: true, size: 'sm' });
+    modalRef.componentInstance.inventario = inventario; //Instancio la variable categoria_selected del component EditCategoriaComponent
+    modalRef.result.then( //Esta parte es cuando ya se cierra el modal
+      () => {
+
+      },
+      () => {
+
+      }
+    )
+    modalRef.componentInstance.inventarioG.subscribe((resp: any) => {
+      let INDEX = this.product_inventaries.findIndex(item => item.id == resp.id);
+
+      if (INDEX != -1) {
+        this.product_inventaries[INDEX] = resp;
+      }
+
+    });
+  }
+
+  openDelete(inventario) {
+    const modalRef = this.modelService.open(DeleteItemInventarioComponent, { centered: true, size: 'sm' });
+    modalRef.componentInstance.inventario = inventario; //Instancio la variable categoria_selected del component EditCategoriaComponent
+    modalRef.result.then( //Esta parte es cuando ya se cierra el modal
+      () => {
+
+      },
+      () => {
+
+      }
+    )
+    modalRef.componentInstance.inventarioG.subscribe((resp: any) => {
+      let INDEX = this.product_inventaries.findIndex(item => item.id == resp.id);
+
+      if (INDEX != -1) {
+        this.product_inventaries.splice(INDEX, 1);
+      }
+
+    });
+  }
+
+  openEditSubDimension(invent, inventario) {
+    const modalRef = this.modelService.open(EditSubItemInventarioComponent, { centered: true, size: 'sm' });
+    modalRef.componentInstance.sub_inventario = invent; //Instancio la variable categoria_selected del component EditCategoriaComponent
+    modalRef.componentInstance.inventario = inventario; //Instancio la variable categoria_selected del component EditCategoriaComponent
+    modalRef.componentInstance.products_colors = this.products_colors;
+    modalRef.result.then( //Esta parte es cuando ya se cierra el modal
+      () => {
+
+      },
+      () => {
+
+      }
+    )
+    modalRef.componentInstance.inventarioG.subscribe((resp: any) => {
+      let INDEX = this.product_inventaries.find(item => item.id == inventario.id).variaciones.findIndex(item => item.id == resp.id);
+
+      if (INDEX != -1) {
+        this.product_inventaries.find(item => item.id == inventario.id).variaciones[INDEX] = resp;
+      }
+
+    });
+  }
+
+  openDeleteSubDimension(invent, inventario) {
+    const modalRef = this.modelService.open(DeleteSubItemInventarioComponent, { centered: true, size: 'sm' });
+    modalRef.componentInstance.sub_inventario = invent; //Instancio la variable categoria_selected del component EditCategoriaComponent
+    modalRef.result.then( //Esta parte es cuando ya se cierra el modal
+      () => {
+
+      },
+      () => {
+
+      }
+    )
+    modalRef.componentInstance.inventarioG.subscribe((resp: any) => {
+      let INDEX = this.product_inventaries.find(item => item.id == inventario.id).variaciones.findIndex(item => item.id == resp.id);
+
+      if (INDEX != -1) {
+        this.product_inventaries.find(item => item.id == inventario.id).variaciones.splice(INDEX, 1);
+      }
+
     });
   }
 }

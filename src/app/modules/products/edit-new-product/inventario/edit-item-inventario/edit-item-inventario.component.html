@@ -1,0 +1,36 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <div class="modal-title h4" id="example-modal-sizes-title-lg">
+            <i class="icon-2x text-dark-50 flaticon-interface-9 mx-2"></i> Editar Dimensión: {{ inventario.name }}
+        </div>
+    </div>
+    <div class="overlay overlay-block cursor-default modal-body" style="min-height: 404px">
+        <ng-container *ngIf="isLoading$ | async">
+            <div class="overlay-layer bg-transparent">
+                <div class="spinner spinner-lg spinner-success"></div>
+            </div>
+        </ng-container>
+
+        <form action="#" class="form form-label-right">
+
+            <div class="form-group row">
+                <div class="col-12">
+                    <label class="form-label" for=""> Nombre dimensión: </label>
+                    <input type="text" class="form-control form-control-solid form-control-lg" name="name"
+                        placeholder="Nombre" autocomplete="off" [(ngModel)]="name">
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-elevate mr-2" (click)="modal.dismiss()">
+            Cancelar
+        </button>
+        <button type="submit" class="btn btn-success btn-elevate mr-2" (click)="save()">
+            Guardar Cambios
+        </button>
+    </div>
+</div>
