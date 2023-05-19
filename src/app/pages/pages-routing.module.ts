@@ -89,6 +89,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'cupones',
+        loadChildren: () =>
+          import('../modules/cupones/cupones.module').then(
+            (m) => m.CuponesModule
+          ),
+      },
+      {
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',

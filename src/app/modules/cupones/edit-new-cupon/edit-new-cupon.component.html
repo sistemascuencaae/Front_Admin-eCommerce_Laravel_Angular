@@ -1,0 +1,230 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 flaticon-interface-3 mx-2"></i> Editar el Cupon: {{
+                cupon.code }}
+            </h3>
+        </div>
+        <div class="card-toolbar">
+
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5"></span>
+        </ng-container>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <label class="form-label" for=""> Codigo del cupon: </label>
+                <input type="text" class="form-control form-control-solid form-control-lg" name="code"
+                    placeholder="Codigo del producto" autocomplete="off" [(ngModel)]="code">
+            </div>
+
+            <div class="col-3">
+                <label for="">Tipo de descuento:</label>
+                <div class="radio-inline">
+                    <label class="radio">
+                        <input type="radio" name="radiosD" [checked]="type_discount == 1" value="1"
+                            (click)="checkedTipoDescuento(1)">
+                        <span></span>
+                        Porcentaje
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio" name="radiosD" [checked]="type_discount == 2" value="2"
+                            (click)="checkedTipoDescuento(2)">
+                        <span></span>
+                        Moneda
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-3">
+                <label class="form-label" for=""> Descuento: </label>
+                <input type="number" class="form-control form-control-solid form-control-lg" name="discount"
+                    placeholder="60%" autocomplete="off" [(ngModel)]="discount">
+            </div>
+
+            <div class="col-3">
+                <label for="" class="form-label">Status:</label>
+                <select name="state" id="" class="form-control form-control-solid form-control-lg" [(ngModel)]="state">
+                    <option value="1">Activo</option>
+                    <option value="2">Inactivo</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5">
+                <label for="">Tipo de Uso:</label>
+                <div class="radio-inline">
+                    <label class="radio">
+                        <input type="radio" name="radiosU" [checked]="type_count == 1" value="1"
+                            (click)="checkedTipoUso(1)">
+                        <span></span>
+                        Ilimitado
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio" name="radiosU" [checked]="type_count == 2" value="2"
+                            (click)="checkedTipoUso(2)">
+                        <span></span>
+                        Limitado
+                    </label>
+                </div>
+            </div>
+
+            <div class="col-4" *ngIf="type_count == 2">
+                <label class="form-label" for=""> N° Uso: </label>
+                <input type="number" class="form-control form-control-solid form-control-lg" name="num_use"
+                    placeholder="50" autocomplete="off" [(ngModel)]="num_use">
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5">
+                <label for="">Tipo Productos | Categorías:</label>
+                <div class="radio-inline">
+                    <label class="radio">
+                        <input type="radio" name="radiosPC" [checked]="type_cupon == 1" value="1"
+                            (click)="checkedTipoProductoCategoria(1)">
+                        <span></span>
+                        Productos
+                    </label>
+
+                    <label class="radio">
+                        <input type="radio" name="radiosPC" [checked]="type_cupon == 2" value="2"
+                            (click)="checkedTipoProductoCategoria(2)">
+                        <span></span>
+                        Categorías
+                    </label>
+                </div>
+            </div>
+
+            <!-- PRODUCTOS -->
+            <div class="col-4" *ngIf="type_cupon == 1">
+                <label for="" class="form-label">Productos:</label>
+                <select name="product_id" id="" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="product_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let product of products">
+                        <option [value]="product.id">{{ product.tittle }}</option>
+                    </ng-container>
+                </select>
+            </div>
+
+            <!-- CATEGORIAS -->
+            <div class="col-4" *ngIf="type_cupon == 2">
+                <label for="" class="form-label">Categorías:</label>
+                <select name="categorie_id" id="" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let categorie of categories">
+                        <option [value]="categorie.id">{{ categorie.name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary btn-elevate mr-2" (click)="addObjectTable()">+</button>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-12" *ngIf="type_cupon == 1">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Productos</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let productS of products_selected" class="text-center">
+                                <td>{{ productS.name }}</td>
+                                <td>
+                                    <a (click)="deleteProductTable(productS)"
+                                        class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                        ngbTooltip="Eliminar Categoria" ngbTooltipClass="kt-tooltip">
+                                        <span class="svg-icon svg-icon-md svg-icon-danger">
+                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                                viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path
+                                                        d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
+                                                        fill="#000000" fill-rule="nonzero" />
+                                                    <path
+                                                        d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
+                                                        fill="#000000" opacity="0.3" />
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-12" *ngIf="type_cupon == 2">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Categorias</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let categoriaS of categories_selected" class="text-center">
+                                <td>{{ categoriaS.name }}</td>
+                                <td>
+                                    <a (click)="deleteCategorieTable(categoriaS)"
+                                        class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                        ngbTooltip="Eliminar Categoria" ngbTooltipClass="kt-tooltip">
+                                        <span class="svg-icon svg-icon-md svg-icon-danger">
+                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/Trash.svg-->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                                                viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24" />
+                                                    <path
+                                                        d="M6,8 L6,20.5 C6,21.3284271 6.67157288,22 7.5,22 L16.5,22 C17.3284271,22 18,21.3284271 18,20.5 L18,8 L6,8 Z"
+                                                        fill="#000000" fill-rule="nonzero" />
+                                                    <path
+                                                        d="M14,4.5 L14,4 C14,3.44771525 13.5522847,3 13,3 L11,3 C10.4477153,3 10,3.44771525 10,4 L10,4.5 L5.5,4.5 C5.22385763,4.5 5,4.72385763 5,5 L5,5.5 C5,5.77614237 5.22385763,6 5.5,6 L18.5,6 C18.7761424,6 19,5.77614237 19,5.5 L19,5 C19,4.72385763 18.7761424,4.5 18.5,4.5 L14,4.5 Z"
+                                                        fill="#000000" opacity="0.3" />
+                                                </g>
+                                            </svg>
+                                            <!--end::Svg Icon-->
+                                        </span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-4">
+                <button type="submit" class="btn btn-success btn-elevate mr-2" (click)="addNewCupon()">
+                    Guardar Cambios
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>

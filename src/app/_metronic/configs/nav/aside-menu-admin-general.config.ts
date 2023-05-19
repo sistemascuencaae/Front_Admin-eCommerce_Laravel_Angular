@@ -79,6 +79,25 @@ export const AsideMenuAdminGeneral = {
         }
       ]
     },
+    {
+      title: 'Cupones',
+      root: true,
+      name: "cupones",
+      bullet: 'dot',
+      icon: 'flaticon2-user-outline-symbol',
+      svg: './assets/media/svg/icons/Home/Toilet.svg',
+      page: '/cupones',
+      submenu: [
+        {
+          title: 'Listar Cupones',
+          page: '/cupones/lista-cupones'
+        },
+        {
+          title: 'Registar Cupones',
+          page: '/cupones/registrar-cupon'
+        }
+      ]
+    },
 
 
 
