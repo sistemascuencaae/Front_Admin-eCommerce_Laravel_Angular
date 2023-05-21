@@ -53,8 +53,14 @@ export class AddSlidersNewComponent implements OnInit {
   save() {
     let formData = new FormData(); //Clase de javaScript permite encapsular la info de tipo archivo
     formData.append("imagen_file", this.imagen_file)
-    formData.append("name", this.name)
-    formData.append("url", this.url)
+
+    if (this.name) {
+      formData.append("name", this.name)
+    }
+
+    if (this.url) {
+      formData.append("url", this.url)
+    }
 
     this._sliderService.createSlider(formData).subscribe((resp: any) => {
       console.log(resp);
