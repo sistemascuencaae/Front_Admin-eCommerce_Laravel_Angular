@@ -1,0 +1,170 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 
+            flaticon-interface-3 mx-2"></i> EDITAR DESCUENTO: ({{ discount_selected.code }})</h3>
+        </div>
+        <div class="card-toolbar">
+        </div>
+    </div>
+    <div class="card-body">
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5"></span>
+        </ng-container>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>TIPO DE DESCUENTO: </label>
+                    <div class="radio-inline">
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="type_discount == 1" value="1"
+                                (click)="checkedTypeD(1)">
+                            <span></span>
+                            PORCENTAJE
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="radiosC" [checked]="type_discount == 2" value="2"
+                                (click)="checkedTypeD(2)">
+                            <span></span>
+                            MONEDA
+                        </label>
+
+                    </div>
+                    <span class="form-text text-muted">Selec. una opción</span>
+                </div>
+            </div>
+            <div class="col-3">
+                <label class="form-label">DESCUENTO: *</label>
+                <input type="number" class="form-control form-control-solid form-control-lg" name="discount"
+                    placeholder="50 %" autocomplete="off" [(ngModel)]="discount">
+            </div>
+            <div class="col-3">
+                <label class="form-label">STATUS : *</label>
+                <select name="state" class="form-control form-control-solid form-control-lg" [(ngModel)]="state">
+                    <option value="1">ACTIVO</option>
+                    <option value="2">DES-ACTIVO</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-4">
+                <label>Fecha inicio: *</label>
+                <div class="input-group input-group-solid">
+                    <input type="date" class="form-control form-control-lg form-control-solid"
+                        [(ngModel)]="start_date" />
+                </div>
+            </div>
+            <div class="col-4">
+                <label>Fecha fin: *</label>
+                <div class="input-group input-group-solid">
+                    <input type="date" class="form-control form-control-lg form-control-solid" [(ngModel)]="end_date" />
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-3">
+                <div class="form-group">
+                    <label>TIPO DE PRODUCTOS/CATEGORIAS: </label>
+                    <div class="radio-inline">
+                        <label class="radio">
+                            <input type="radio" name="radiosPC" [checked]="type_dis == 1" value="1"
+                                (click)="checkedTypePC(1)">
+                            <span></span>
+                            PRODUCTOS
+                        </label>
+                        <label class="radio">
+                            <input type="radio" name="radiosPC" [checked]="type_dis == 2" value="2"
+                                (click)="checkedTypePC(2)">
+                            <span></span>
+                            CATEGORIAS
+                        </label>
+
+                    </div>
+                    <span class="form-text text-muted">Selec. una opción</span>
+                </div>
+            </div>
+            <div class="col-4" *ngIf="type_dis == 1">
+                <!-- PRODUCTOS -->
+                <label class="form-label">PRODUCTOS : *</label>
+                <select name="product_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="product_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let product of products">
+                        <option [value]="product.id">{{ product.title }}</option>
+                    </ng-container>
+
+
+                </select>
+            </div>
+            <div class="col-4" *ngIf="type_dis == 2">
+                <!-- CATEGORIAS -->
+                <label class="form-label">CATEGORIA : *</label>
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let categorie of categories">
+                        <option [value]="categorie.id">{{ categorie.name }}</option>
+                    </ng-container>
+
+
+                </select>
+            </div>
+            <div class="col-1">
+                <button class="btn btn-success" (click)="addObject()">+</button>
+            </div>
+            <div class="col-12" *ngIf="type_dis == 1">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>PRODUCTOS</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let productS of products_selected">
+                                <td>
+                                    {{ productS.name }}
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger" (click)="productD(productS)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-12" *ngIf="type_dis == 2">
+                <div class="table-responsive">
+                    <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                        <thead>
+                            <tr class="text-left">
+                                <th>CATEGORIAS</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let categoriaS of categories_selected">
+                                <td>
+                                    {{ categoriaS.name }}
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger" (click)="categorieD(categoriaS)">-</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-3">
+                <button class="btn btn-primary" (click)="newDiscount()">EDITAR DESCUENTO</button>
+            </div>
+        </div>
+    </div>
+</div>
