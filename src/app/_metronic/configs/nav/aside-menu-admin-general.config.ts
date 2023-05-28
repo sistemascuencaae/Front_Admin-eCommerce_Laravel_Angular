@@ -26,9 +26,22 @@ export const AsideMenuAdminGeneral = {
         }
       ]
     },
-
-
-
+    { section: 'Comercial' },
+    {
+      title: 'Ventas',
+      root: true,
+      name: "ventas",
+      bullet: 'dot',
+      icon: 'flaticon2-user-outline-symbol',
+      svg: './assets/media/svg/icons/Communication/Clipboard-list.svg',
+      page: '/ventas',
+      submenu: [
+        {
+          title: 'Ordenes',
+          page: '/ventas/lista-de-ordenes'
+        }
+      ]
+    },
     { section: 'Productos' },
     {
       title: 'Categorias',

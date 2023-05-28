@@ -1,0 +1,110 @@
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h3 class="card-label"><i class="icon-2x text-dark-50 
+            flaticon-presentation-1 mx-2"></i> Lista de ordenes de compras</h3>
+        </div>
+        <div class="card-toolbar">
+        </div>
+    </div>
+    <div class="card-body">
+
+        <ng-container *ngIf="isLoading$ | async">
+            <span class="spinner spinner-primary ml-5"></span>
+        </ng-container>
+
+        <div class="row">
+            <div class="col-3">
+                <input type="text" class="form-control" name="searchText" placeholder="Buscar" value=""
+                    [(ngModel)]="search" /><small class="form-text text-muted"><b>Buscar</b> por nombre de
+                    CLIENTE</small>
+            </div>
+            <div class="col-3">
+                <label class="form-label">CATEGORIA : *</label>
+                <select name="categorie_id" class="form-control form-control-solid form-control-lg"
+                    [(ngModel)]="categorie_id">
+                    <option value="">Ninguno</option>
+
+                    <ng-container *ngFor="let categorie of categories">
+                        <option [value]="categorie.id">{{ categorie.name }}</option>
+                    </ng-container>
+                </select>
+            </div>
+
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-12">
+                        <label>Fecha inicio: *</label>
+                        <div class="input-group input-group-solid">
+                            <input type="date" class="form-control form-control-lg form-control-solid"
+                                [(ngModel)]="start_date" />
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <label>Fecha fin: *</label>
+                        <div class="input-group input-group-solid">
+                            <input type="date" class="form-control form-control-lg form-control-solid"
+                                [(ngModel)]="end_date" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary ml-2" placement="top" [ngbTooltip]="'Filtro'" (click)="allSales()">
+                    <i class="icon text-white flaticon-search-1"></i>
+                </button>
+                <button class="btn btn-dark ml-2" placement="top" [ngbTooltip]="'Reset'" (click)="reset()">
+                    <i class="icon text-white flaticon-refresh"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-head-custom table-vertical-center" id="kt_advance_table_widget_1">
+                <thead>
+                    <tr class="text-left">
+                        <th>N° TRANSACCIÓN</th>
+                        <th>METODO DE PAGO</th>
+                        <!-- <th >TIPO DE MONEDA DE PAGO</th> -->
+                        <th>TIPO DE MONEDA DE LA VENTA</th>
+                        <th>CLIENTE</th>
+                        <th>TOTAL</th>
+                        <th>ACCIÓN</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let sale of SALES">
+                        <td>{{ sale.n_transaccion }}</td>
+                        <td>{{ sale.method_payment }}</td>
+                        <!-- <td></td> -->
+                        <td>{{ sale.currency_total }}</td>
+                        <td>{{ sale.user.full_name.toUpperCase() }}</td>
+                        <td>{{ sale.total }} {{ sale.currency_payment }}</td>
+                        <td>
+
+                            <a (click)="showDetail(sale)" class="btn btn-icon btn-light btn-hover-info btn-sm"
+                                ngbTooltip="Detalle de la Orden" ngbTooltipClass="kt-tooltip">
+                                <span
+                                    class="svg-icon svg-icon-md svg-icon-info"><!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2021-05-14-112058/theme/html/demo1/dist/../src/media/svg/icons/Shopping/Cart1.svg--><svg
+                                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                        <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                            <rect x="0" y="0" width="24" height="24" />
+                                            <path
+                                                d="M18.1446364,11.84388 L17.4471627,16.0287218 C17.4463569,16.0335568 17.4455155,16.0383857 17.4446387,16.0432083 C17.345843,16.5865846 16.8252597,16.9469884 16.2818833,16.8481927 L4.91303792,14.7811299 C4.53842737,14.7130189 4.23500006,14.4380834 4.13039941,14.0719812 L2.30560137,7.68518803 C2.28007524,7.59584656 2.26712532,7.50338343 2.26712532,7.4104669 C2.26712532,6.85818215 2.71484057,6.4104669 3.26712532,6.4104669 L16.9929851,6.4104669 L17.606173,3.78251876 C17.7307772,3.24850086 18.2068633,2.87071314 18.7552257,2.87071314 L20.8200821,2.87071314 C21.4717328,2.87071314 22,3.39898039 22,4.05063106 C22,4.70228173 21.4717328,5.23054898 20.8200821,5.23054898 L19.6915238,5.23054898 L18.1446364,11.84388 Z"
+                                                fill="#000000" opacity="0.3" />
+                                            <path
+                                                d="M6.5,21 C5.67157288,21 5,20.3284271 5,19.5 C5,18.6715729 5.67157288,18 6.5,18 C7.32842712,18 8,18.6715729 8,19.5 C8,20.3284271 7.32842712,21 6.5,21 Z M15.5,21 C14.6715729,21 14,20.3284271 14,19.5 C14,18.6715729 14.6715729,18 15.5,18 C16.3284271,18 17,18.6715729 17,19.5 C17,20.3284271 16.3284271,21 15.5,21 Z"
+                                                fill="#000000" />
+                                        </g>
+                                    </svg><!--end::Svg Icon--></span>
+                            </a>
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
