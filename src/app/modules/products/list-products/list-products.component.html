@@ -48,8 +48,9 @@
                     <tr *ngFor="let product of products" class="text-center">
                         <td>
                             <div class="symbol symbol-50 flex-shrink-0 mr-4">
+                                <!-- [ngStyle]="{'background-image':'url('+URL_BACKEND+product.imagen+')'}"> -->
                                 <div class="symbol-label"
-                                    [ngStyle]="{'background-image':'url('+URL_BACKEND+product.imagen+')'}">
+                                    [ngStyle]="{'background-image': 'url('+product.imagen+')'}">
                                 </div>
                                 <!--  http://192.168.1.105/Back-eCommerce_Laravel_Angular/storage/app/categorias/vn6T.png -->
                             </div>

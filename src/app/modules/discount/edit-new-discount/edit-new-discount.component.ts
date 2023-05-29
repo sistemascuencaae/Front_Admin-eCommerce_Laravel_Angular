@@ -41,6 +41,39 @@ export class EditNewDiscountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.isLoading$ = this._descuentosServices.isLoadingSubject;
+    // this.activerouter.params.subscribe((resp: any) => {
+    //   this.discount_id = resp["id"];
+    // })
+    // this.configAll();
+    // this._descuentosServices.showDescuento(this.discount_id).subscribe((resp: any) => {
+    //   console.log(resp);
+    //   this.discount_selected = resp.discount;
+    //   this.type_discount = this.discount_selected.type_discount;
+    //   this.discount = this.discount_selected.discount;
+    //   this.start_date = this.discount_selected.start_date;
+    //   this.end_date = this.discount_selected.end_date;
+    //   this.state = this.discount_selected.state;
+    //   this.type_dis = this.discount_selected.type;
+    //   if (this.type_dis == 1) {
+    //     this.discount_selected.products.forEach(element => {
+    //       let PROD = this.products.find(item => item.id == element.product_id);
+    //       this.products_selected.push({
+    //         name: PROD.tittle,
+    //         id: PROD.id
+    //       });
+    //     });
+    //   }
+    //   if (this.type_dis == 2) {
+    //     this.discount_selected.categories.forEach(element => {
+    //       let CATEG = this.categories.find(item => item.id == element.categorie_id);
+    //       this.categories_selected.push({
+    //         name: CATEG.name,
+    //         id: CATEG.id
+    //       });
+    //     });
+    //   }
+    // });
     this.isLoading$ = this._descuentosServices.isLoadingSubject;
     this.activerouter.params.subscribe((resp: any) => {
       this.discount_id = resp["id"];

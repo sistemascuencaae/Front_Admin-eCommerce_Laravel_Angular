@@ -10,6 +10,7 @@ import { DeleteItemInventarioComponent } from '../edit-new-product/inventario/de
 import { EditItemInventarioComponent } from '../edit-new-product/inventario/edit-item-inventario/edit-item-inventario.component';
 import { DeleteSubItemInventarioComponent } from '../edit-new-product/inventario/delete-sub-item-inventario/delete-sub-item-inventario.component';
 import { EditSubItemInventarioComponent } from '../edit-new-product/inventario/edit-sub-item-inventario/edit-sub-item-inventario.component';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-new-products',
