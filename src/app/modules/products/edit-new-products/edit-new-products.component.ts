@@ -10,7 +10,6 @@ import { DeleteItemInventarioComponent } from '../edit-new-product/inventario/de
 import { EditItemInventarioComponent } from '../edit-new-product/inventario/edit-item-inventario/edit-item-inventario.component';
 import { DeleteSubItemInventarioComponent } from '../edit-new-product/inventario/delete-sub-item-inventario/delete-sub-item-inventario.component';
 import { EditSubItemInventarioComponent } from '../edit-new-product/inventario/edit-sub-item-inventario/edit-sub-item-inventario.component';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-edit-new-products',
@@ -19,7 +18,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 })
 export class EditNewProductsComponent implements OnInit {
 
-  URL_BACKEND = URL_BACKEND;
+
   isLoading$;
 
   tittle: any = null;
@@ -115,7 +114,7 @@ export class EditNewProductsComponent implements OnInit {
       this.description = this.product.description;
 
       this.tags = this.product.tags_a;
-      this.imagen_previzualiza = this.URL_BACKEND + this.product.imagen;
+      this.imagen_previzualiza = URL_BACKEND + '/' + this.product.imagen;
       this.images_files = this.product.images;
       this.product_inventaries = this.product.sizes;
       this.stock_individual = this.product.stock;

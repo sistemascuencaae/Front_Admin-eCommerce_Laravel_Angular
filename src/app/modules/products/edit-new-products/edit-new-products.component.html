@@ -156,7 +156,7 @@
                             <tr *ngFor="let imagen_ of images_files; let i=index">
                                 <td>{{imagen_.file_name}}</td>
                                 <td>
-                                    <img [src]="URL_BACKEND+'/'+imagen_.imagen" alt="" width="60" height="60">
+                                    <img [src]="imagen_.imagen" alt="" width="60" height="60">
                                 </td>
                                 <td>
                                     <button class="btn btn-sm btn-danger ml-5"
